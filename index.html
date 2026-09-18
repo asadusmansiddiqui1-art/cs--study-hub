@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="CS Study Hub — a responsive study dashboard by Asad Usman." />
+  <title>CS Study Hub | Asad Usman</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          boxShadow: { glow: '0 0 45px rgba(99,102,241,.18)' }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: Inter, sans-serif; }
+    .glass { background: rgba(255,255,255,.72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(148,163,184,.25); }
+    .dark .glass { background: rgba(15,23,42,.68); border-color: rgba(148,163,184,.16); }
+    .gradient-text { background: linear-gradient(90deg,#6366f1,#8b5cf6,#06b6d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero-grid { background-image: linear-gradient(rgba(99,102,241,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.07) 1px, transparent 1px); background-size: 34px 34px; }
+    .card-hover { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(15,23,42,.12); }
+    .dark .card-hover:hover { box-shadow: 0 20px 50px rgba(0,0,0,.28); }
+    .bar { height: 8px; border-radius: 999px; background: rgba(148,163,184,.18); overflow:hidden; }
+    .bar > span { display:block; height:100%; border-radius:999px; background: linear-gradient(90deg,#6366f1,#06b6d4); }
+    .modal-backdrop { background: rgba(2,6,23,.75); backdrop-filter: blur(6px); }
+    .code-font { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-40 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 inset-x-0 z-40">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
+      <div class="glass rounded-2xl px-4 py-3 shadow-glow">
+        <div class="flex items-center justify-between gap-4">
+          <a href="#dashboard" class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 text-white grid place-items-center shadow-lg">
+              <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-extrabold tracking-tight">CS Study Hub</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">Asad Usman</div>
+            </div>
+          </a>
+
+          <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+            <a href="#dashboard" class="hover:text-indigo-500">Dashboard</a>
+            <a href="#playground" class="hover:text-indigo-500">Playground</a>
+            <a href="#subjects" class="hover:text-indigo-500">Subjects</a>
+            <a href="#tools" class="hover:text-indigo-500">GPA Tool</a>
+            <a href="#developer" class="hover:text-indigo-500">Contact</a>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="themeBtn" class="h-10 w-10 rounded-xl border border-slate-200 dark:border-slate-700 grid place-items-center hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Toggle theme">
+              <i data-lucide="moon" class="w-5 h-5" id="themeIcon"></i>
+            </button>
+            <button id="menuBtn" class="md:hidden h-10 w-10 rounded-xl border border-slate-200 dark:border-slate-700 grid place-items-center" aria-label="Open menu">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden pt-3 mt-3 border-t border-slate-200 dark:border-slate-800">
+          <div class="grid gap-1 text-sm font-medium">
+            <a class="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" href="#dashboard">Dashboard</a>
+            <a class="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" href="#playground">Playground</a>
+            <a class="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" href="#subjects">Subjects</a>
+            <a class="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" href="#tools">GPA Tool</a>
+            <a class="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800" href="#developer">Contact</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="dashboard" class="pt-28">
+    <!-- HERO -->
+    <section class="hero-grid">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        <div class="grid lg:grid-cols-[1.15fr_.85fr] gap-10 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full px-4 py-2 bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 text-sm font-semibold mb-5">
+              <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+              Welcome to <span class="gradient-text">CS Study Hub</span>
+            </h1>
+            <p class="mt-5 text-lg text-slate-600 dark:text-slate-300 max-w-2xl">
+              A modern study dashboard for learning, coding, revising notes and tracking your semester progress — all in one place.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="#subjects" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow-lg shadow-indigo-600/20">
+                <i data-lucide="book-open" class="w-5 h-5"></i> Explore Subjects
+              </a>
+              <a href="#playground" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl glass font-semibold hover:bg-white dark:hover:bg-slate-800">
+                <i data-lucide="code-2" class="w-5 h-5"></i> Start Coding
+              </a>
+            </div>
+          </div>
+
+          <div class="glass rounded-3xl p-5 shadow-glow">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="font-bold">Today's Focus</div>
+                <div class="text-sm text-slate-500 dark:text-slate-400">Keep your study streak going</div>
+              </div>
+              <div class="h-11 w-11 rounded-xl bg-amber-500/10 text-amber-500 grid place-items-center"><i data-lucide="flame" class="w-5 h-5"></i></div>
+            </div>
+            <div class="space-y-4">
+              <div><div class="flex justify-between text-sm mb-2"><span>Programming Fundamentals</span><b>75%</b></div><div class="bar"><span style="width:75%"></span></div></div>
+              <div><div class="flex justify-between text-sm mb-2"><span>Data Structures & Algorithms</span><b>60%</b></div><div class="bar"><span style="width:60%"></span></div></div>
+              <div><div class="flex justify-between text-sm mb-2"><span>Database Systems</span><b>45%</b></div><div class="bar"><span style="width:45%"></span></div></div>
+            </div>
+            <div class="mt-5 rounded-2xl bg-slate-900 text-white dark:bg-slate-800 p-4">
+              <div class="text-xs text-slate-400">Quick reminder</div>
+              <div class="font-semibold mt-1">Read one topic, write one program, revise one concept.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-5 relative z-10">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="glass rounded-2xl p-5 card-hover"><div class="flex items-center justify-between"><span class="text-sm text-slate-500">Subjects</span><i data-lucide="layers-3" class="w-5 h-5 text-indigo-500"></i></div><div class="text-3xl font-extrabold mt-2">6</div><div class="text-xs text-slate-500 mt-1">Core BSCS subjects</div></div>
+        <div class="glass rounded-2xl p-5 card-hover"><div class="flex items-center justify-between"><span class="text-sm text-slate-500">PDF Notes</span><i data-lucide="file-text" class="w-5 h-5 text-cyan-500"></i></div><div class="text-3xl font-extrabold mt-2">6</div><div class="text-xs text-slate-500 mt-1">Masterclass PDFs added</div></div>
+        <div class="glass rounded-2xl p-5 card-hover"><div class="flex items-center justify-between"><span class="text-sm text-slate-500">Tools</span><i data-lucide="wrench" class="w-5 h-5 text-violet-500"></i></div><div class="text-3xl font-extrabold mt-2">2</div><div class="text-xs text-slate-500 mt-1">Code playground + GPA</div></div>
+        <div class="glass rounded-2xl p-5 card-hover"><div class="flex items-center justify-between"><span class="text-sm text-slate-500">Study Streak</span><i data-lucide="zap" class="w-5 h-5 text-amber-500"></i></div><div class="text-3xl font-extrabold mt-2">7</div><div class="text-xs text-slate-500 mt-1">Days — keep going!</div></div>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section id="playground" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+        <div><div class="text-indigo-500 font-bold text-sm uppercase tracking-wider">Practice</div><h2 class="text-3xl font-extrabold mt-1">Interactive Code Playground</h2><p class="text-slate-500 dark:text-slate-400 mt-2">Run JavaScript directly in your browser. C++ is shown as an educational simulation.</p></div>
+      </div>
+      <div class="glass rounded-3xl overflow-hidden shadow-glow">
+        <div class="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+          <button class="langBtn px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold" data-lang="js">JavaScript</button>
+          <button class="langBtn px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800" data-lang="cpp">C++</button>
+          <button id="runBtn" class="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700"><i data-lucide="play" class="w-4 h-4"></i> Run</button>
+          <button id="clearCodeBtn" class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-semibold">Reset</button>
+        </div>
+        <div class="grid lg:grid-cols-2">
+          <div class="p-4 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
+            <textarea id="codeEditor" class="code-font w-full h-72 resize-none outline-none rounded-2xl bg-slate-950 text-slate-100 p-5 text-sm leading-6" spellcheck="false">const student = "Asad Usman";
+const subject = "Data Structures & Algorithms";
+
+console.log(`Hello ${student}!`);
+console.log(`Today I am studying ${subject}.`);
+
+let marks = [85, 90, 78, 92];
+let average = marks.reduce((a,b) => a+b, 0) / marks.length;
+console.log("Average:", average);</textarea>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2 mb-3 text-sm font-semibold"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Console Output</div>
+            <pre id="consoleOutput" class="code-font h-72 overflow-auto rounded-2xl bg-slate-950 text-slate-200 p-5 text-sm leading-6 whitespace-pre-wrap">Ready. Press Run to execute your JavaScript.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBJECTS / PDF CARDS -->
+    <section id="subjects" class="bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/70 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <div class="text-indigo-500 font-bold text-sm uppercase tracking-wider">Your Notes</div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Six Core CS Subjects</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-3">Each subject is connected to its PDF. Use <b>View PDF</b> to open it inside the study viewer or <b>Download</b> to save it.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- 1 -->
+          <article class="glass rounded-3xl p-6 card-hover">
+            <div class="flex items-start justify-between gap-4"><div class="h-14 w-14 rounded-2xl bg-blue-500/10 text-blue-500 grid place-items-center"><i data-lucide="code-2" class="w-7 h-7"></i></div><span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-500">PDF</span></div>
+            <h3 class="text-xl font-extrabold mt-5">Programming Fundamentals</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Variables, control flow, functions, arrays, pointers, OOP and core programming concepts.</p>
+            <div class="flex gap-2 mt-6"><button class="viewPdf flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700" data-title="Programming Fundamentals" data-file="pdfs/programming-fundamentals.pdf"><i data-lucide="eye" class="w-4 h-4"></i> View PDF</button><a class="downloadPdf inline-flex items-center justify-center px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700" href="pdfs/programming-fundamentals.pdf" download title="Download PDF"><i data-lucide="download" class="w-5 h-5"></i></a></div>
+          </article>
+
+          <!-- 2 -->
+          <article class="glass rounded-3xl p-6 card-hover">
+            <div class="flex items-start justify-between gap-4"><div class="h-14 w-14 rounded-2xl bg-violet-500/10 text-violet-500 grid place-items-center"><i data-lucide="network" class="w-7 h-7"></i></div><span class="text-xs font-bold px-3 py-1 rounded-full bg-violet-500/10 text-violet-500">PDF</span></div>
+            <h3 class="text-xl font-extrabold mt-5">Data Structures & Algorithms</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Complexity, arrays, linked lists, stacks, queues, trees, graphs, searching and sorting.</p>
+            <div class="flex gap-2 mt-6"><button class="viewPdf flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700" data-title="Data Structures & Algorithms" data-file="pdfs/dsa.pdf"><i data-lucide="eye" class="w-4 h-4"></i> View PDF</button><a class="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700" href="pdfs/dsa.pdf" download title="Download PDF"><i data-lucide="download" class="w-5 h-5"></i></a></div>
+          </article>
+
+          <!-- 3 -->
+          <article class="glass rounded-3xl p-6 card-hover">
+            <div class="flex items-start justify-between gap-4"><div class="h-14 w-14 rounded-2xl bg-emerald-500/10 text-emerald-500 grid place-items-center"><i data-lucide="database" class="w-7 h-7"></i></div><span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500">PDF</span></div>
+            <h3 class="text-xl font-extrabold mt-5">Database Systems</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">DBMS, relational model, SQL, normalization, transactions, indexing and NoSQL concepts.</p>
+            <div class="flex gap-2 mt-6"><button class="viewPdf flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700" data-title="Database Systems" data-file="pdfs/database-systems.pdf"><i data-lucide="eye" class="w-4 h-4"></i> View PDF</button><a class="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700" href="pdfs/database-systems.pdf" download title="Download PDF"><i data-lucide="download" class="w-5 h-5"></i></a></div>
+          </article>
+
+          <!-- 4 -->
+          <article class="glass rounded-3xl p-6 card-hover">
+            <div class="flex items-start justify-between gap-4"><div class="h-14 w-14 rounded-2xl bg-orange-500/10 text-orange-500 grid place-items-center"><i data-lucide="cpu" class="w-7 h-7"></i></div><span class="text-xs font-bold px-3 py-1 rounded-full bg-orange-500/10 text-orange-500">PDF</span></div>
+            <h3 class="text-xl font-extrabold mt-5">Operating Systems</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Processes, threads, CPU scheduling, memory management, deadlocks, files and OS fundamentals.</p>
+            <div class="flex gap-2 mt-6"><button class="viewPdf flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700" data-title="Operating Systems" data-file="pdfs/operating-systems.pdf"><i data-lucide="eye" class="w-4 h-4"></i> View PDF</button><a class="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700" href="pdfs/operating-systems.pdf" download title="Download PDF"><i data-lucide="download" class="w-5 h-5"></i></a></div>
+          </article>
+
+          <!-- 5 -->
+          <article class="glass rounded-3xl p-6 card-hover">
+            <div class="flex items-start justify-between gap-4"><div class="h-14 w-14 rounded-2xl bg-cyan-500/10 text-cyan-500 grid place-items-center"><i data-lucide="globe-2" class="w-7 h-7"></i></div><span class="text-xs font-bold px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-500">PDF</span></div>
+            <h3 class="text-xl font-extrabold mt-5">Computer Networks</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Network basics, OSI and TCP/IP, routing, TCP/UDP, addressing, security and protocols.</p>
+            <div class="flex gap-2 mt-6"><button class="viewPdf flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl bg-cyan-600 text-white font-semibold hover:bg-cyan-700" data-title="Computer Networks" data-file="pdfs/computer-networks.pdf"><i data-lucide="eye" class="w-4 h-4"></i> View PDF</button><a class="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700" href="pdfs/computer-networks.pdf" download title="Download PDF"><i data-lucide="download" class="w-5 h-5"></i></a></div>
+          </article>
+
+          <!-- 6 -->
+          <article class="glass rounded-3xl p-6 card-hover">
+            <div class="flex items-start justify-between gap-4"><div class="h-14 w-14 rounded-2xl bg-pink-500/10 text-pink-500 grid place-items-center"><i data-lucide="workflow" class="w-7 h-7"></i></div><span class="text-xs font-bold px-3 py-1 rounded-full bg-pink-500/10 text-pink-500">PDF</span></div>
+            <h3 class="text-xl font-extrabold mt-5">Software Engineering</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Software process models, requirements, design, Agile, testing, maintenance and quality.</p>
+            <div class="flex gap-2 mt-6"><button class="viewPdf flex-1 inline-flex justify-center items-center gap-2 px-4 py-3 rounded-xl bg-pink-600 text-white font-semibold hover:bg-pink-700" data-title="Software Engineering" data-file="pdfs/software-engineering.pdf"><i data-lucide="eye" class="w-4 h-4"></i> View PDF</button><a class="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700" href="pdfs/software-engineering.pdf" download title="Download PDF"><i data-lucide="download" class="w-5 h-5"></i></a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div>
+          <div class="text-indigo-500 font-bold text-sm uppercase tracking-wider">Utility</div>
+          <h2 class="text-3xl font-extrabold mt-2">Semester GPA Calculator</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-2">Enter course credit hours and grade points to calculate your semester GPA.</p>
+        </div>
+        <div class="glass rounded-3xl p-6 shadow-glow">
+          <div id="courses" class="space-y-3"></div>
+          <div class="flex flex-wrap gap-3 mt-5">
+            <button id="addCourse" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-semibold"><i data-lucide="plus" class="w-4 h-4"></i> Add Course</button>
+            <button id="calcGpa" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700"><i data-lucide="calculator" class="w-4 h-4"></i> Calculate GPA</button>
+          </div>
+          <div class="mt-5 rounded-2xl bg-slate-900 text-white p-5 flex items-center justify-between"><span class="text-slate-300">Semester GPA</span><span id="gpaResult" class="text-3xl font-extrabold">0.00</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVELOPER -->
+    <section id="developer" class="bg-slate-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="grid lg:grid-cols-[1fr_auto] gap-10 items-center">
+          <div>
+            <div class="text-cyan-400 font-bold text-sm uppercase tracking-wider">Developer</div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Built by Asad Usman</h2>
+            <p class="text-slate-300 mt-4 max-w-2xl">CS Study Hub is designed as a practical place for study notes, coding practice and academic utilities.</p>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3 min-w-0 lg:min-w-[440px]">
+            <a href="mailto:asadusmansiddiqui1@gmail.com" class="rounded-2xl bg-white/5 border border-white/10 p-4 hover:bg-white/10"><div class="text-slate-400 text-xs">Email</div><div class="font-semibold mt-1 break-all">asadusmansiddiqui1@gmail.com</div></a>
+            <a href="https://wa.me/923424622705" target="_blank" rel="noopener" class="rounded-2xl bg-white/5 border border-white/10 p-4 hover:bg-white/10"><div class="text-slate-400 text-xs">WhatsApp</div><div class="font-semibold mt-1">0342 4622705</div></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-slate-950 text-slate-400 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row gap-2 justify-between text-sm">
+      <span>© <span id="year"></span> CS Study Hub — Asad Usman</span>
+      <span>Learn • Code • Build</span>
+    </div>
+  </footer>
+
+  <!-- PDF MODAL -->
+  <div id="pdfModal" class="hidden fixed inset-0 z-50 modal-backdrop p-3 sm:p-6">
+    <div class="h-full max-w-6xl mx-auto rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-2xl flex flex-col">
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+        <div class="h-9 w-9 rounded-lg bg-indigo-500/10 text-indigo-500 grid place-items-center"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+        <div class="font-bold truncate" id="pdfTitle">PDF Notes</div>
+        <div class="ml-auto flex items-center gap-2">
+          <a id="modalDownload" href="#" download class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold"><i data-lucide="download" class="w-4 h-4"></i><span class="hidden sm:inline">Download</span></a>
+          <button id="closeModal" class="h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-700 grid place-items-center"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+      </div>
+      <div class="flex-1 bg-slate-200 dark:bg-slate-950">
+        <iframe id="pdfFrame" class="w-full h-full" title="PDF Viewer"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const savedTheme = localStorage.getItem('cs-study-theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) root.classList.add('dark');
+    function updateThemeIcon(){ themeIcon.setAttribute('data-lucide', root.classList.contains('dark') ? 'sun' : 'moon'); lucide.createIcons(); }
+    updateThemeIcon();
+    themeBtn.addEventListener('click', () => { root.classList.toggle('dark'); localStorage.setItem('cs-study-theme', root.classList.contains('dark') ? 'dark' : 'light'); updateThemeIcon(); });
+
+    // Mobile menu
+    document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('hidden'));
+    document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('click', () => document.getElementById('mobileMenu').classList.add('hidden')));
+
+    // PDF viewer
+    const pdfModal = document.getElementById('pdfModal');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const pdfTitle = document.getElementById('pdfTitle');
+    const modalDownload = document.getElementById('modalDownload');
+    function openPdf(title, file){ pdfTitle.textContent = title; const url = encodeURI(file); pdfFrame.src = url; modalDownload.href = url; pdfModal.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+    function closePdf(){ pdfModal.classList.add('hidden'); pdfFrame.src = ''; document.body.classList.remove('overflow-hidden'); }
+    document.querySelectorAll('.viewPdf').forEach(btn => btn.addEventListener('click', () => openPdf(btn.dataset.title, btn.dataset.file)));
+    document.getElementById('closeModal').addEventListener('click', closePdf);
+    pdfModal.addEventListener('click', e => { if(e.target === pdfModal) closePdf(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closePdf(); });
+
+    // Playground
+    const editor = document.getElementById('codeEditor');
+    const output = document.getElementById('consoleOutput');
+    let currentLang = 'js';
+    const jsStarter = editor.value;
+    const cppStarter = `#include <iostream>\nusing namespace std;\n\nint main() {\n    string student = "Asad Usman";\n    cout << "Hello " << student << "!" << endl;\n    cout << "Welcome to CS Study Hub" << endl;\n    return 0;\n}`;
+    document.querySelectorAll('.langBtn').forEach(btn => btn.addEventListener('click', () => {
+      currentLang = btn.dataset.lang;
+      document.querySelectorAll('.langBtn').forEach(b => b.classList.remove('bg-indigo-600','text-white'));
+      btn.classList.add('bg-indigo-600','text-white');
+      editor.value = currentLang === 'js' ? jsStarter : cppStarter;
+      output.textContent = currentLang === 'js' ? 'Ready. Press Run to execute your JavaScript.' : 'C++ mode: educational simulation. Press Run to preview the program output.';
+    }));
+    document.getElementById('runBtn').addEventListener('click', () => {
+      if(currentLang === 'cpp') { output.textContent = '[C++ Simulation]\nHello Asad Usman!\nWelcome to CS Study Hub\n\nNote: This browser page does not compile native C++. Use a C++ compiler/IDE for actual execution.'; return; }
+      const logs = [];
+      const fakeConsole = { log: (...args) => logs.push(args.map(x => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' ')), error: (...args) => logs.push('ERROR: ' + args.join(' ')), warn: (...args) => logs.push('WARN: ' + args.join(' ')) };
+      try { new Function('console', editor.value)(fakeConsole); output.textContent = logs.length ? logs.join('\n') : 'Code ran successfully with no console output.'; }
+      catch(err) { output.textContent = 'ERROR: ' + err.message; }
+    });
+    document.getElementById('clearCodeBtn').addEventListener('click', () => { editor.value = currentLang === 'js' ? jsStarter : cppStarter; output.textContent = 'Editor reset.'; });
+
+    // GPA calculator
+    const courses = document.getElementById('courses');
+    function addCourse(name='', credit='3', grade='4') {
+      const row = document.createElement('div');
+      row.className = 'grid grid-cols-[1fr_80px_100px_42px] gap-2';
+      row.innerHTML = `<input value="${name}" placeholder="Course name" class="courseName min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+      <input type="number" min="1" max="6" step="1" value="${credit}" class="credit rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500" title="Credit hours" />
+      <input type="number" min="0" max="4" step="0.01" value="${grade}" class="grade rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500" title="Grade points" />
+      <button class="removeCourse rounded-xl border border-slate-200 dark:border-slate-700 grid place-items-center hover:text-red-500" title="Remove"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
+      row.querySelector('.removeCourse').addEventListener('click', () => { row.remove(); calculateGpa(); });
+      courses.appendChild(row); lucide.createIcons();
+    }
+    addCourse('Programming Fundamentals','3','3.7');
+    addCourse('Data Structures & Algorithms','3','3.7');
+    addCourse('Database Systems','3','3.3');
+    addCourse('Computer Networks','3','3.3');
+    document.getElementById('addCourse').addEventListener('click', () => addCourse());
+    function calculateGpa(){
+      let totalPoints=0,totalCredits=0;
+      courses.querySelectorAll(':scope > div').forEach(row => { const c=parseFloat(row.querySelector('.credit').value)||0; const g=parseFloat(row.querySelector('.grade').value)||0; totalCredits += c; totalPoints += c*g; });
+      document.getElementById('gpaResult').textContent = totalCredits ? (totalPoints/totalCredits).toFixed(2) : '0.00';
+    }
+    document.getElementById('calcGpa').addEventListener('click', calculateGpa);
+    calculateGpa();
+  </script>
+</body>
+</html>
